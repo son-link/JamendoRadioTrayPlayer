@@ -12,5 +12,6 @@ Requisites:
 
 Usage:
 Simply add execute permision to JamendoRadioTrayPlayer.py and run
+Note: On Arch Linux, derivated distros and anothers the default python version is 3.X. Is if your case, change the firts line to #!/usr/bin/env python2
 
 https://github.com/son-link/JamendoRadioTrayPlayer
