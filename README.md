@@ -8,11 +8,9 @@ Requisites:
 * pygst
 * gstreamer 0.10
 * gstreamer-bad-plgins 0.10 (need for playing MP3 audio)
+* pygtk
 
 Usage:
-* -e, --echo: list radios
-* -r, RADIO --radio=RADIO: playing selected radio whitout curses interface
-* -h, --help: print the help
-Whitout options run whit curses interface.
+Simply add execute permision to JamendoRadioTrayPlayer.py and run
 
-https://github.com/son-link/jamendoradioplayer
+https://github.com/son-link/JamendoRadioTrayPlayer
