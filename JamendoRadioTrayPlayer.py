@@ -178,7 +178,7 @@ class JAMTRAY():
 		info.set_license(f.read())
 		f.close()
 		info.set_comments(_('Play Jamendo radios on yor systray'))
-		info.set_website('https://github.com/son-link/CD-Tray')
+		info.set_website('https://github.com/son-link/JamendoRadioTrayPlayer')
 		info.set_website_label(_("Proyect page"))
 		info.set_translator_credits('English: Alfonso Saavedra "Son Link"')
 		def close(w, res):
