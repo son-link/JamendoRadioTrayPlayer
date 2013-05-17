@@ -1,0 +1,8 @@
+r1:
+	* firts release
+
+r2:
+	* Change icon
+	* Addend original client_id for Jamendo API
+	* Added this CHANGELOG
+	* Other minor changes

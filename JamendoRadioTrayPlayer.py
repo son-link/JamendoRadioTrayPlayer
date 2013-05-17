@@ -10,9 +10,11 @@ import gobject, gtk
 import gettext, pynotify
 import gst
 import json
+import ConfigParser
 
-from urllib import urlopen
+from urllib import urlopen, urlencode
 from os import getcwd
+from os.path import isfile
 
 t = gettext.translation('jrtp', 'lang')
 _ = t.ugettext
@@ -32,7 +34,7 @@ class JAMTRAY():
 
 		self.statusicon = gtk.StatusIcon()
 
-		self.statusicon.set_from_file('jtp.svg')
+		self.statusicon.set_from_file('jrtp.svg')
 		self.statusicon.connect("popup-menu", self.show_menu)
 		self.statusicon.connect('activate', self.play)
 
@@ -60,16 +62,22 @@ class JAMTRAY():
 		salir.connect('activate', self.quit)
 		self.menu.append(salir)
 
-		self.radios = self.getData('radios/?format=json&order=dispname&limit=all')
-		if self.radios:
-			self.update_jt_menu()
-			self.player = gst.element_factory_make("playbin2", "player")
-			bus = self.player.get_bus()
-			bus.add_signal_watch()
-			#bus.connect("message::error", self.bus_message_error)
-			bus.connect("message::tag", self.bus_message_tag)
-		else:
-			exit(-1)
+		if not isfile('radioslist'):
+			radios = self.getData('radios/?format=json&order=dispname&limit=all')
+			if radios:
+				f = open('radioslist', 'w')
+
+				for radio in radios:
+					f.write('%s|%s\n' % (radio['id'], radio['dispname']))
+				f.close()
+			else:
+				exit(-1)
+		self.update_jt_menu()
+		self.player = gst.element_factory_make("playbin2", "player")
+		bus = self.player.get_bus()
+		bus.add_signal_watch()
+		#bus.connect("message::error", self.bus_message_error)
+		bus.connect("message::tag", self.bus_message_tag)
 
 	def show_menu(self, icon, button, time):
 		"""
@@ -125,24 +133,26 @@ class JAMTRAY():
 
 		# Send notify
 		if self.shownotify == 1:
-			pynotify.init('CD Tray')
-			img = '%s/jtp.svg' % getcwd()
-			notify = pynotify.Notification('CD Tray', _('Playing %s') % track_name, img)
+			pynotify.init('Jamendo Radio Tray Player')
+			img = '%s/jrtp.svg' % getcwd()
+			notify = pynotify.Notification('Jamendo Radio Tray Player', _('Playing %s') % track_name, img)
 			notify.show()
 
 	def update_jt_menu(self):
 
 		self.tracks_menu = gtk.Menu()
 		self.importm.set_submenu(self.tracks_menu)
-		for radio in self.radios:
-			menu_items = gtk.MenuItem(radio['dispname'])
+		radios = open('radioslist')
+		for radio in radios.readlines():
+			radio = radio.split('|')
+			menu_items = gtk.MenuItem(radio[1].rstrip())
 			self.tracks_menu.append(menu_items)
-			menu_items.connect("activate", self.changeRadio, radio['id'])
-			if radio['id'] == self.actual_radioid:
+			menu_items.connect("activate", self.changeRadio, radio[0])
+			if radio[0] == self.actual_radioid:
 				menu_items.set_sensitive(False)
 
 	def changeRadio(self, widget, radioid):
-		data = self.getData('radios/stream?format=json&id=%i' % radioid)[0]
+		data = self.getData('radios/stream?format=json&id=%s' % radioid)[0]
 		self.actual_radioid = radioid
 		self.update_jt_menu()
 		self.player.set_state(gst.STATE_NULL)
@@ -153,7 +163,7 @@ class JAMTRAY():
 
 	def getData(self, params):
 		try:
-			response = urlopen("http://api.jamendo.com/v3.0/%s&client_id=b6747d04" % params)
+			response = urlopen("http://api.jamendo.com/v3.0/%s&client_id=455c95a8" % params)
 			if response.getcode() == 200:
 				data = json.loads(response.read())
 				if data['headers']['code'] == 0:
@@ -171,7 +181,7 @@ class JAMTRAY():
 
 		info = gtk.AboutDialog()
 		info.set_name('Jamendo Radio Tray Player')
-		logo = gtk.gdk.pixbuf_new_from_file('jtp.svg')
+		logo = gtk.gdk.pixbuf_new_from_file('jrtp.svg')
 		info.set_logo(logo)
 		info.set_version('r1')
 		f = open('COPYING', 'r')
@@ -183,7 +193,6 @@ class JAMTRAY():
 		info.set_translator_credits('English: Alfonso Saavedra "Son Link"')
 		def close(w, res):
 			w.hide()
-			exit(1)
 		info.connect("response", close)
 		info.run()
 
