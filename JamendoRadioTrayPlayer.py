@@ -10,11 +10,12 @@ import gobject, gtk
 import gettext, pynotify
 import gst
 import json
-import ConfigParser
 
-from urllib import urlopen, urlencode
+from urllib import urlopen
 from os import getcwd
 from os.path import isfile
+from commands import getoutput
+from ctypes import CDLL
 
 t = gettext.translation('jrtp', 'lang')
 _ = t.ugettext
@@ -72,11 +73,12 @@ class JAMTRAY():
 				f.close()
 			else:
 				exit(-1)
+
 		self.update_jt_menu()
 		self.player = gst.element_factory_make("playbin2", "player")
 		bus = self.player.get_bus()
 		bus.add_signal_watch()
-		#bus.connect("message::error", self.bus_message_error)
+		bus.connect("message::error", self.bus_message_error)
 		bus.connect("message::tag", self.bus_message_tag)
 
 	def show_menu(self, icon, button, time):
@@ -121,6 +123,10 @@ class JAMTRAY():
 					self.update_info(taglist['title'])
 			except:
 				return False
+
+	def bus_message_error(self, bus, message):
+		e, d = message.parse_error()
+		self.statusicon.set_tooltip_text("ERROR: "+ str(e))
 
 	def update_info(self, track_name):
 		"""
@@ -183,7 +189,7 @@ class JAMTRAY():
 		info.set_name('Jamendo Radio Tray Player')
 		logo = gtk.gdk.pixbuf_new_from_file('jrtp.svg')
 		info.set_logo(logo)
-		info.set_version('r1')
+		info.set_version('Beta 1 (r3)')
 		f = open('COPYING', 'r')
 		info.set_license(f.read())
 		f.close()
@@ -204,6 +210,22 @@ class JAMTRAY():
 		exit()
 
 if __name__ == '__main__':
+	process = getoutput('ps -A')
 
-	JAMTRAY()
-	gtk.main()
+	libc6 = 'libc.so.6'
+
+	if not 'jamendoradio' in process:
+		libc = CDLL(libc6)
+		libc.prctl (15, 'jamendoradio', 0, 0, 0)
+		JAMTRAY()
+		gtk.main()
+
+	else:
+		warning = gtk.MessageDialog(parent=None, flags=0, type=gtk.MESSAGE_WARNING, buttons=gtk.BUTTONS_OK, message_format=_("Error!"))
+		warning.set_title('Jamendo Radio Tray Player')
+		warning.format_secondary_text(_("There is another Jamendo Radio Tray Player instance running. If the program didn't close correctly, kill jamendoradio process"))
+		def close(w, res):
+			w.destroy()
+			exit(1)
+		warning.connect("response", close)
+		warning.run()

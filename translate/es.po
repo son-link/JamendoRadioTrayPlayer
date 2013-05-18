@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jamendo Radio Tray Player\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 13:26+0200\n"
-"PO-Revision-Date: 2013-05-16 13:27+0100\n"
+"POT-Creation-Date: 2013-05-18 12:33+0200\n"
+"PO-Revision-Date: 2013-05-18 12:35+0100\n"
 "Last-Translator: Alfonso Saavedra \"Son Link\" <sonlink.dourden@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,22 +16,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
-#: ../JamendoRadioTrayPlayer.py:43
+#: ../JamendoRadioTrayPlayer.py:46
 msgid "Radios"
 msgstr "Radios"
 
-#: ../JamendoRadioTrayPlayer.py:122 ../JamendoRadioTrayPlayer.py:130
+#: ../JamendoRadioTrayPlayer.py:136 ../JamendoRadioTrayPlayer.py:144
 #, fuzzy, python-format
 msgid "Playing %s"
 msgstr "Reproduciendo %s"
 
-#: ../JamendoRadioTrayPlayer.py:180
+#: ../JamendoRadioTrayPlayer.py:196
 msgid "Play Jamendo radios on yor systray"
 msgstr "Reproduce las radios de Jamendo desde la bandeja del sistema"
 
-#: ../JamendoRadioTrayPlayer.py:182
+#: ../JamendoRadioTrayPlayer.py:198
 msgid "Proyect page"
 msgstr "Pagina del proyecto"
+
+#: ../JamendoRadioTrayPlayer.py:224
+msgid "Error!"
+msgstr "¡ERROR!"
+
+#: ../JamendoRadioTrayPlayer.py:226
+msgid ""
+"There is another Jamendo Radio Tray Player instance running. If the program "
+"didn't close correctly, kill jamendoradio process"
+msgstr ""
+"Ya se esta ejecutando una instancia de Jamendo Radio Tray Player. Si el "
+"programa no salio correctamente, mate el proceso jamendoradio"
 
 #~ msgid "Force kill another cdtray instance"
 #~ msgstr "Forzar matar otro proceso en ejecuación"

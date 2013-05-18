@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 13:26+0200\n"
+"POT-Creation-Date: 2013-05-18 12:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../JamendoRadioTrayPlayer.py:43
+#: ../JamendoRadioTrayPlayer.py:46
 msgid "Radios"
 msgstr ""
 
-#: ../JamendoRadioTrayPlayer.py:122 ../JamendoRadioTrayPlayer.py:130
+#: ../JamendoRadioTrayPlayer.py:136 ../JamendoRadioTrayPlayer.py:144
 #, python-format
 msgid "Playing %s"
 msgstr ""
 
-#: ../JamendoRadioTrayPlayer.py:180
+#: ../JamendoRadioTrayPlayer.py:196
 msgid "Play Jamendo radios on yor systray"
 msgstr ""
 
-#: ../JamendoRadioTrayPlayer.py:182
+#: ../JamendoRadioTrayPlayer.py:198
 msgid "Proyect page"
+msgstr ""
+
+#: ../JamendoRadioTrayPlayer.py:224
+msgid "Error!"
+msgstr ""
+
+#: ../JamendoRadioTrayPlayer.py:226
+msgid ""
+"There is another Jamendo Radio Tray Player instance running. If the program "
+"didn't close correctly, kill jamendoradio process"
 msgstr ""

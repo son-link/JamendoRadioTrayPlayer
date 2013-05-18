@@ -6,3 +6,8 @@ r2:
 	* Addend original client_id for Jamendo API
 	* Added this CHANGELOG
 	* Other minor changes
+
+Beta 1 (r3):
+	* Now check if another Jamendo Radio Tray Player is running
+	* Update translations
+	* Oter minor changes
